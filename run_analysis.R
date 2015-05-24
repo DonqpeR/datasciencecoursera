@@ -1,5 +1,4 @@
 require("dplyr")
-require("tidyr")
 
 ### Loading the dataset ###
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -16,14 +15,14 @@ folder <- "UCI HAR Dataset"
 activities <- tbl_df( read.table( file = paste( folder, "activity_labels.txt", sep="/" ) ) )
 features <- tbl_df( read.table( file = paste( folder, "features.txt", sep="/" ) ) )
 
-# Preparing vectors for loading only the required coloumns (mean and sd of each measurement)
+# Preparing vectors for loading only the required columns (mean and sd of each measurement)
 # instead of loading all and selecting the columns later
 # as suggested in https://class.coursera.org/getdata-014/forum/thread?thread_id=293#post-1277
 cols <- grep( "mean\\(\\)|std\\(\\)", features$V2 )
 cc <- rep( "NULL", nrow( features ) )
 cc[cols] <- "numeric"
 
-### Loading and mergeing test data 
+### Loading and merging test data 
 x_test <- read.table( file = paste( folder, "test/x_test.txt", sep="/" )
                     , colClasses = cc
                     , col.names = features$V2
@@ -41,7 +40,7 @@ subject_test <- read.table( file = paste( folder, "test/subject_test.txt", sep="
 merged_test <- merge( subject_test, y_test, by="row.names", sort=FALSE ); merged_test$Row.names <- NULL
 merged_test <- merge( merged_test, x_test, by="row.names", sort=FALSE ); merged_test$Row.names <- NULL 
 
-### Loading and mergeing train data 
+### Loading and merging train data 
 x_train <- read.table( file = paste( folder, "train/x_train.txt", sep="/" )
                      , colClasses = cc
                      , col.names = features$V2
